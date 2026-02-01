@@ -1,1 +1,283 @@
-developing
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timed Prediction - Task Unlock</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- AD TAG 1 -->
+    <script src="https://quge5.com/88/tag.min.js" data-zone="207554" async data-cfasync="false"></script>
+
+    <!-- POP-UNDER SCRIPT 1 -->
+    <script>(function(s){s.dataset.zone='10552133',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+    <!-- NEW AD SCRIPT -->
+    <script>(function(s){s.dataset.zone='10552172',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            padding: 24px;
+            z-index: 10;
+        }
+
+        .title {
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
+        .btn-white {
+            background-color: #fff;
+            color: #000;
+            padding: 16px 24px;
+            border-radius: 9999px;
+            font-weight: 800;
+            width: 100%;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.1);
+        }
+
+        .btn-white:active {
+            transform: scale(0.96);
+        }
+
+        .input-field {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            width: 100%;
+            margin-bottom: 16px;
+            color: #fff;
+            text-align: center;
+            outline: none;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .glow-circle {
+            width: 220px;
+            height: 220px;
+            border: 5px solid #00f2ff;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.5), inset 0 0 20px rgba(0, 242, 255, 0.25);
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.05) 0%, transparent 70%);
+        }
+
+        .multiplier {
+            font-size: 2.8rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .time-result {
+            color: #00f2ff;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+
+        .ad-banner-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: #111;
+            border-top: 1px solid #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #444;
+            font-size: 10px;
+            letter-spacing: 2px;
+            z-index: 100;
+        }
+
+        .btn-win { background-color: #22c55e; color: #000; font-weight: 800; border-radius: 12px; flex: 1; padding: 16px; margin-right: 10px; text-transform: uppercase; }
+        .btn-loss { background-color: #ef4444; color: #000; font-weight: 800; border-radius: 12px; flex: 1; padding: 16px; text-transform: uppercase; }
+
+        .hidden { display: none; }
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .task-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed #444;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Landing Screen -->
+        <div id="screen-landing" class="fade-in">
+            <h1 class="title">TIMED PREDICTION</h1>
+            <button onclick="handleStartClick()" class="btn-white">GET TIMED SIGNAL</button>
+        </div>
+
+        <!-- Task Unlock Screen -->
+        <div id="screen-task" class="hidden fade-in">
+            <h1 class="title">UNLOCK SIGNAL</h1>
+            <div class="task-card">
+                <p class="text-sm text-gray-300 mb-4">Complete 1 quick task to unlock today's prediction signal.</p>
+                <button onclick="doTask()" class="btn-white !bg-cyan-400 !text-black">DO TASK TO UNLOCK</button>
+            </div>
+            <p id="unlock-status" class="text-[10px] text-gray-500 uppercase tracking-widest">Waiting for completion...</p>
+        </div>
+
+        <!-- Input Screen -->
+        <div id="screen-input" class="hidden fade-in">
+            <h1 class="title">TIMED PREDICTION</h1>
+            <p class="text-gray-400 text-[11px] mb-6 font-bold tracking-widest uppercase">ENTER LAST 2 ROUND TIMES (HH:MM)</p>
+            <input type="text" id="time1" placeholder="Time 1 (e.g 14:30)" class="input-field" maxlength="5">
+            <input type="text" id="time2" placeholder="Time 2 (e.g 14:32)" class="input-field" maxlength="5">
+            <button onclick="generatePrediction()" class="btn-white mt-6">GENERATE SIGNAL</button>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="screen-result" class="hidden fade-in">
+            <h1 class="title">TIMED PREDICTION</h1>
+            <div class="glow-circle">
+                <div class="multiplier" id="res-multiplier">0.00x</div>
+                <div class="time-result" id="res-time">TIME: 00:00/01</div>
+            </div>
+            <div class="flex justify-between w-full mt-6">
+                <button onclick="resetApp()" class="btn-win">WIN</button>
+                <button onclick="resetApp()" class="btn-loss">LOSS</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FIXED BOTTOM AD SPACE -->
+    <div class="ad-banner-bottom">
+        <span>ADVERTISEMENT SPACE</span>
+    </div>
+
+    <script>
+        const screens = {
+            landing: document.getElementById('screen-landing'),
+            task: document.getElementById('screen-task'),
+            input: document.getElementById('screen-input'),
+            result: document.getElementById('screen-result')
+        };
+
+        let isUnlocked = false;
+        const directLink = "https://otieu.com/4/10552083";
+
+        function switchScreen(to) {
+            Object.values(screens).forEach(s => s.classList.add('hidden'));
+            screens[to].classList.remove('hidden');
+        }
+
+        function handleStartClick() {
+            if (isUnlocked) {
+                switchScreen('input');
+            } else {
+                switchScreen('task');
+            }
+        }
+
+        function doTask() {
+            window.open(directLink, '_blank');
+            const status = document.getElementById('unlock-status');
+            status.innerText = "CHECKING TASK STATUS...";
+            status.classList.add('text-cyan-400');
+
+            setTimeout(() => {
+                isUnlocked = true;
+                status.innerText = "UNLOCKED SUCCESSFULLY!";
+                setTimeout(() => {
+                    switchScreen('input');
+                }, 1000);
+            }, 3000);
+        }
+
+        function resetApp() {
+            document.getElementById('time1').value = '';
+            document.getElementById('time2').value = '';
+            switchScreen('landing');
+        }
+
+        function formatTime(minutes) {
+            let h = Math.floor(minutes / 60) % 24;
+            let m = minutes % 60;
+            return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+        }
+
+        function parseTime(str) {
+            const parts = str.split(':');
+            if (parts.length !== 2) return null;
+            const h = parseInt(parts[0]);
+            const m = parseInt(parts[1]);
+            return (isNaN(h) || isNaN(m)) ? null : h * 60 + m;
+        }
+
+        function generatePrediction() {
+            const t1 = parseTime(document.getElementById('time1').value);
+            const t2 = parseTime(document.getElementById('time2').value);
+
+            if (t1 === null || t2 === null) return;
+
+            let diff = Math.abs(t2 - t1);
+            if (diff === 0) diff = 2;
+
+            let nextMinutesStart = t2 + diff;
+            if (nextMinutesStart % 2 === 0) nextMinutesStart += 1; 
+
+            const nextMinutesEnd = nextMinutesStart + 1;
+            const randomMult = (Math.random() * (10.00 - 3.00) + 3.00).toFixed(2);
+
+            document.getElementById('res-multiplier').innerText = `${randomMult}x`;
+            document.getElementById('res-time').innerText = `TIME: ${formatTime(nextMinutesStart)}/${formatTime(nextMinutesEnd).split(':')[1]}`;
+
+            switchScreen('result');
+        }
+
+        [document.getElementById('time1'), document.getElementById('time2')].forEach(input => {
+            input.addEventListener('input', (e) => {
+                let value = e.target.value.replace(/[^\d]/g, '');
+                if (value.length > 2) {
+                    value = value.slice(0, 2) + ':' + value.slice(2, 4);
+                }
+                e.target.value = value;
+            });
+        });
+    </script>
+</body>
+</html>
